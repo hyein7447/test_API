@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>test_API</title>
-    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
     <div id="notice_wrap">
@@ -14,5 +14,46 @@
             <button type="button" class="closeBtn">닫기</button>
         </p>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+        // 문서 로딩 후 실행
+        $(document).ready(function () {
+          // 쿠키를 읽어옴
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) return parts.pop().split(";").shift();
+            }
+        
+            // 쿠키 설정
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
+        
+            // 3일 동안 이 창 열지 않기 체크 시 쿠키 설정
+            $("#chk").change(function () {
+                if ($(this).is(":checked")) {
+                setCookie("hideNotice", "true", 3); // 3일 동안 쿠키 유지
+                }
+            });
+        
+            // 닫기 버튼 클릭 시 쿠키 확인 및 설정
+            $(".closeBtn").click(function () {
+                var hideNotice = getCookie("hideNotice");
+                if (hideNotice !== "true") {
+                console.log("쿠키 설정이 3일로 되어 있지 않습니다.");
+                } else {
+                console.log("쿠키 설정이 3일로 되어 있습니다.");
+                }
+                // 여기서 실제로 창을 닫거나 숨기는 로직을 추가할 수 있습니다.
+            });
+            });
+        </script>
 </body>
 </html>
